@@ -6,9 +6,12 @@
 import numpy as np
 f = lambda y,z,t: -4*np.pi**2*y
 
-def met_rk4_2(y, z, h, t, tf, f):
+def met_rk4_2(y, z, h, t, tf, f, m, kinetic_energy, potential_energy):
     N = int((tf-t)/h)
     T, Y, Z = [t], [y], [z]
+    K = [kinetic_energy(m, z)]
+    V = [potential_energy(m, y)]
+    Energy = [kinetic_energy(m, z) + potential_energy(m, y)]
 
     for i in range(N):
         k1 = h*z
@@ -27,4 +30,8 @@ def met_rk4_2(y, z, h, t, tf, f):
         Y.append(y)
         Z.append(z)
         T.append(t)
-    return T, Y, Z
+        K.append(kinetic_energy(m, z))
+        V.append(potential_energy(m, y))
+        Energy.append(kinetic_energy(m, z) + potential_energy(m, y))
+        
+    return T, Y, Z, K, V, Energy
