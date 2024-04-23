@@ -29,26 +29,30 @@ def verlet(t0, tf, x, y, vx, vy, h):
 
   return T,X,Y
 
-T, X, Y = verlet(0,1,1,0,0,2*np.pi,0.01)
-plt.figure(figsize=(5,5))
+T, X, Y = verlet(0,5,0.5,0,0,2*np.pi,0.01)
+b = abs(max(X) - min(X))
+h = abs(max(Y) - min(Y))
+plt.figure(figsize=(6,6/b*h))
 plt.plot(X,Y)
 plt.plot(0,0,'oy')
+plt.grid()
 plt.show()
+
+
 
 import matplotlib.animation as animation
 # Figura sobre la que se basa la animación
-fig = plt.figure(figsize=(5,5))
+fig = plt.figure(figsize=(6,6/b*h))
 ax=fig.gca()
 
 def actualizar(i):
     ax.clear()
     plt.plot(0,0,'oy')
     plt.plot(X,Y,'--')
-    plt.plot(X[i],Y[i],'o')
-    # plt.plot(l1*np.sin(Y1[i])+l2*np.sin(Y2[i]),-l1*np.cos(Y1[i])-l2*np.cos(Y2[i]),'bo')
+    plt.plot(X[i],Y[i],'ok')
     plt.title(str(round(T[i],3)))
-    plt.xlim(-1.2,1.2)
-    plt.ylim(-1.2,1.2)
+    plt.xlim(min(X), max(X))
+    plt.ylim(min(Y), max(Y))
 ani=animation.FuncAnimation(fig,actualizar,range(len(T)),interval=100)
-ani.save('animacion.mp4')
+# ani.save('animacion.mp4')
 plt.show()
